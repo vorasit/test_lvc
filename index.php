@@ -42,14 +42,15 @@
         <div class="row h-100">
           <div class="col-12 my-auto">
             <div class="masthead-content text-white py-5 py-md-0">
+            <div align="center">
+              <img src="img/lvc.png">
               <h1 class="mb-3">V-net online</h1>
               <p class="mb-5">ระบบข้อสอบวัดผลตามมาตราฐานวิชาชีพ V-net</p>
-              <div class="input-group input-group-newsletter">
-                
-                <div class="input-group-append">
+            </div>
+                <div align="center">
                   <button class="btn btn-secondary" type="button" onclick="login()">เข้าสู่หน้าล็อกอิน</button>
                 </div>
-              </div>
+                
             </div>
           </div>
         </div>
