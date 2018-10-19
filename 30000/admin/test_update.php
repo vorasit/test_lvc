@@ -5,54 +5,43 @@ session_start();    //เปิดใช้งานsession
 
 /////////////////////////////////////////////////////////////////////////
 
+$username = $_SESSION[username];   //sessionค่าตัวแปรยังคงอยู่ไม่ว่าเราจะเปลี่ยนหน้าไปและเก็บค่าแบบความลับ
+$password = $_SESSION[password];
 
-$username=$_SESSION[username];   //sessionค่าตัวแปรยังคงอยู่ไม่ว่าเราจะเปลี่ยนหน้าไปและเก็บค่าแบบความลับ
-$password=$_SESSION[password];
-
-$_SESSION[username]=$username;   //sessionค่าตัวแปรยังคงอยู่ไม่ว่าเราจะเปลี่ยนหน้าไปและเก็บค่าแบบความลับ
-$_SESSION[password]=$password;
+$_SESSION[username] = $username;   //sessionค่าตัวแปรยังคงอยู่ไม่ว่าเราจะเปลี่ยนหน้าไปและเก็บค่าแบบความลับ
+$_SESSION[password] = $password;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //echo $_SESSION[username] .$username ;
 //exit;
 
-
 /////////////////////////////////////////////////////////////////////////////////////////////////
-mysql_query("SET character_set_results=utf8");
-mysql_query("SET character_set_client=utf8");            //ฟอนแสดงutf8
-mysql_query("SET character_set_connection=utf8");
+mysql_query('SET character_set_results=utf8');
+mysql_query('SET character_set_client=utf8');            //ฟอนแสดงutf8
+mysql_query('SET character_set_connection=utf8');
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-$objDB = mysql_select_db("db_test_lvc");     //  เลือกฐานข้อมูล
+$objDB = mysql_select_db('db_test_lvc');     //  เลือกฐานข้อมูล
 //////////////////////////////////////////////////////////////////////////////////////////////////
 $strSQL = "SELECT * FROM login where username='$username' and password= '$password'";  //  ภาษาmysql ว่าค่าที่รับมาจาก $username = username ว่าเข้าสู่ฐานข้อมูล
  ////////////////////////////////////////////////////////////////////////////////////////////////////
-$objQuery = mysql_query($strSQL) or die ("Error Query [".$strSQL."]");     //คิวรี่ฐานข้อมูลโดยเลือกฐานข้อมูลไว้แล้ว คือ $objDB = mysql_select_db("data_district");  
+$objQuery = mysql_query($strSQL) or die('Error Query ['.$strSQL.']');     //คิวรี่ฐานข้อมูลโดยเลือกฐานข้อมูลไว้แล้ว คือ $objDB = mysql_select_db("data_district");
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-while($objResult = mysql_fetch_array($objQuery))    //mysql_fetch_array ใช้ในการคืนค่าข้อมูลในฐานข้อมูลที่อยู่ในลักษณะแถวredrord   //เก็บค่าไว้แล้ววนด้วยwhile
-{
+while ($objResult = mysql_fetch_array($objQuery)) {    //mysql_fetch_array ใช้ในการคืนค่าข้อมูลในฐานข้อมูลที่อยู่ในลักษณะแถวredrord   //เก็บค่าไว้แล้ววนด้วยwhile
      //echo "<br>";
 
-   
-
   //echo "test = ".$objResult[username];
-//exit;
+    //exit;
 
-      $get_username=$objResult[username];     // แทนค่าใส่ลงไปในตัวแปร $get_username
-	  $get_password=$objResult[password];
-
-
+    $get_username = $objResult[username];     // แทนค่าใส่ลงไปในตัวแปร $get_username
+    $get_password = $objResult[password];
 }
 
-if($username==$get_username and $password==$get_password and $_SESSION[username] and $_SESSION[password])
-	{
-		
-	}else{
-    header("Location:../../login.php");
+if ($username == $get_username and $password == $get_password and $_SESSION[username] and $_SESSION[password]) {
+} else {
+    header('Location:../../login.php');
     exit;
-	}
-session_write_close()
-
-
+}
+session_write_close();
 
 ?>
 <!DOCTYPE html>
@@ -107,8 +96,14 @@ function IsNumeric1(sText,obj)
    }
 </script>
 
-    <title>แก้ไขแบบทดสอบ</title>
-    <link rel="icon" type="image/่jpg" href="../../img/lvc.jpg">
+<title>แก้ไขแบบทดสอบ</title>
+<link rel="icon" type="image/่jpg" href="../../img/lvc.jpg">
+    <?php
+      $name_sql = "SELECT * FROM login where username='$username'";
+      $name_query = mysql_query($name_sql) or die('Error Query ['.$strSQL.']');
+      $name_result = mysql_fetch_array($name_query);
+      $name = $name_result[name];
+    ?>
 </head>
 <body>
 <nav class="navbar navbar-default">
@@ -122,7 +117,7 @@ function IsNumeric1(sText,obj)
                   <a href="../../subject_test.php" >Home ทดสอบการใช้งาน</a>
                 </li>
                 <li>
-                  <a>ชื่อผู้ใช้งาน :<? echo "$username"; ?></a>
+                  <a>ชื่อผู้ใช้งาน :<?php echo "$name"; ?></a>
                 </li>
                 <li>
                   <a href="logout.php">Logout</a>
@@ -150,34 +145,33 @@ function IsNumeric1(sText,obj)
     </thead>
     <tbody>
     <?php
-    $objDB = mysql_select_db("db_test_lvc");
-    $strSQL = "SELECT * FROM test ORDER BY id ASC";  //เปลี่ยน test 
-    $objQuery = mysql_query($strSQL) or die ("Error Query [".$strSQL."]");
-		 $i=1;
-            while($objResult = mysql_fetch_array($objQuery))
-            {
-            ?>
+    $objDB = mysql_select_db('db_test_lvc');
+    $strSQL = 'SELECT * FROM test ORDER BY id ASC';  //เปลี่ยน test
+    $objQuery = mysql_query($strSQL) or die('Error Query ['.$strSQL.']');
+         $i = 1;
+            while ($objResult = mysql_fetch_array($objQuery)) {
+                ?>
       <tr>
-        <td><?php echo $objResult["id"];?></td>
-        <td><?php echo $objResult["question"];?></td>
-        <td><?php echo $objResult["choice1"];?></td>
-        <td><?php echo $objResult["choice2"];?></td>
-        <td><?php echo $objResult["choice3"];?></td>
-        <td><?php echo $objResult["choice4"];?></td>
-        <td><?php echo $objResult["answer"];?></td>
-        <td><a href="form_edit.php?id_dis=<?php echo $objResult["id"];?>"target="_self"><font size="5">แก้ไข</font></td>    
-        <td><a href="delete.php?id_dis=<?php echo $objResult["id"];?>"class="style2" OnClick="return chkdel();"><font size="5">ลบ</font></a></td>
+        <td><?php echo $objResult['id']; ?></td>
+        <td><?php echo $objResult['question']; ?></td>
+        <td><?php echo $objResult['choice1']; ?></td>
+        <td><?php echo $objResult['choice2']; ?></td>
+        <td><?php echo $objResult['choice3']; ?></td>
+        <td><?php echo $objResult['choice4']; ?></td>
+        <td><?php echo $objResult['answer']; ?></td>
+        <td><a href="form_edit.php?id_dis=<?php echo $objResult['id']; ?>"target="_self"><font size="5">แก้ไข</font></td>    
+        <td><a href="delete.php?id_dis=<?php echo $objResult['id']; ?>"class="style2" OnClick="return chkdel();"><font size="5">ลบ</font></a></td>
       </tr>
       <?php
-        }
+            }
         ?>
     </tbody>
   </table>
   <strong>จำนวนทั้งหมด
-        <? $sql = mysql_query("SELECT COUNT(*) FROM test");   //test
+        <?php $sql = mysql_query('SELECT COUNT(*) FROM test');   //test
     $res = mysql_fetch_array($sql);
     $records = $res[0];
- echo $records."ข้อ";?>
+ echo $records.'ข้อ';?>
       </strong>
 
 <form id="form_insert" name="form_insert" method="post" action="save_insert.php">
