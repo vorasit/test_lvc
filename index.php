@@ -50,7 +50,6 @@
                 <div align="center">
                   <button class="btn btn-secondary" type="button" onclick="login()">เข้าสู่หน้าล็อกอิน</button>
                 </div>
-                
             </div>
           </div>
         </div>
