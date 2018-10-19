@@ -5,41 +5,35 @@ session_start();    //เปิดใช้งานsession
 
 /////////////////////////////////////////////////////////////////////////
 
+$username = $_SESSION[username];   //sessionค่าตัวแปรยังคงอยู่ไม่ว่าเราจะเปลี่ยนหน้าไปและเก็บค่าแบบความลับ
+$password = $_SESSION[password];
 
-$username=$_SESSION[username];   //sessionค่าตัวแปรยังคงอยู่ไม่ว่าเราจะเปลี่ยนหน้าไปและเก็บค่าแบบความลับ
-$password=$_SESSION[password];
-
-$_SESSION[username]=$username;   //sessionค่าตัวแปรยังคงอยู่ไม่ว่าเราจะเปลี่ยนหน้าไปและเก็บค่าแบบความลับ
-$_SESSION[password]=$password;
+$_SESSION[username] = $username;   //sessionค่าตัวแปรยังคงอยู่ไม่ว่าเราจะเปลี่ยนหน้าไปและเก็บค่าแบบความลับ
+$_SESSION[password] = $password;
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
-mysql_query("SET character_set_results=utf8");
-mysql_query("SET character_set_client=utf8");            //ฟอนแสดงutf8
-mysql_query("SET character_set_connection=utf8");
+mysql_query('SET character_set_results=utf8');
+mysql_query('SET character_set_client=utf8');            //ฟอนแสดงutf8
+mysql_query('SET character_set_connection=utf8');
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-$objDB = mysql_select_db("db_test_lvc");     //  เลือกฐานข้อมูล
+$objDB = mysql_select_db('db_test_lvc');     //  เลือกฐานข้อมูล
 //////////////////////////////////////////////////////////////////////////////////////////////////
 $strSQL = "SELECT * FROM login where username='$username' and password= '$password'";  //  ภาษาmysql ว่าค่าที่รับมาจาก $username = username ว่าเข้าสู่ฐานข้อมูล
  ////////////////////////////////////////////////////////////////////////////////////////////////////
-$objQuery = mysql_query($strSQL) or die ("Error Query [".$strSQL."]");     //คิวรี่ฐานข้อมูลโดยเลือกฐานข้อมูลไว้แล้ว คือ $objDB = mysql_select_db("data_district");  
+$objQuery = mysql_query($strSQL) or die('Error Query ['.$strSQL.']');     //คิวรี่ฐานข้อมูลโดยเลือกฐานข้อมูลไว้แล้ว คือ $objDB = mysql_select_db("data_district");
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-while($objResult = mysql_fetch_array($objQuery))    //mysql_fetch_array ใช้ในการคืนค่าข้อมูลในฐานข้อมูลที่อยู่ในลักษณะแถวredrord   //เก็บค่าไว้แล้ววนด้วยwhile
-{
-
-    $get_username=$objResult[username];  
-	  $get_password=$objResult[password];
-    $get_name=$objResult[name];
-
+while ($objResult = mysql_fetch_array($objQuery)) {    //mysql_fetch_array ใช้ในการคืนค่าข้อมูลในฐานข้อมูลที่อยู่ในลักษณะแถวredrord   //เก็บค่าไว้แล้ววนด้วยwhile
+    $get_username = $objResult[username];
+    $get_password = $objResult[password];
+    $get_name = $objResult[name];
 }
 
-if($username==$get_username and $password==$get_password and $_SESSION[username] and $_SESSION[password])
-	{
-		
-	}else{
-    header("Location:../login.php");
+if ($username == $get_username and $password == $get_password and $_SESSION[username] and $_SESSION[password]) {
+} else {
+    header('Location:../login.php');
     exit;
-	}
+}
 //session_write_close()
 
 ?>
@@ -106,20 +100,20 @@ setTimeout("begintimer()",1000)
 <form action="check_test.php" method="post" name="frmTest">
           <div align="center"><font color="#0000FF"><br />
           <div class="col-md-4">
-  <label for="usr">รหัสนักศึกษา :</label>
-    <input name="id_score" type="text" id="id_score" class="form" value="<? echo $get_username ; ?>"/>
+  <label for="usr">รหัสนักศึกษา :</label><br>
+    <input name="id_score" type="text" id="id_score" class="form" value="<?php echo $get_username; ?>"/>
     </div>
-
+<br>   
     <div class="col-md-4">
-    <label for="usr">กรุณากรอกชื่อ-สกุล :</label>
+    <label for="usr">กรุณากรอกชื่อ-สกุล :</label><br>
 
-    <input name="name" type="text" id="name" class="form" value="<? echo $get_name ; ?>"/>
+    <input name="name" type="text" id="name" class="form" value="<?php echo $get_name; ?>"/>
     </div>
     <br />
     <div id=dplay></div><!-- แสดงเวลา -->
     <br /></font><font color="#0000FF">จงเลือกคำตอบที่ถูกที่สุดเพียงข้อเดียว </font><br />
-<?
-$sql = "select count(*) from test";// เปลี่ยน test
+<?php
+$sql = 'select count(*) from test'; // เปลี่ยน test
 $sub = mysql_query($sql);
 $c = mysql_fetch_array($sub);
 $count = $c[0];
@@ -131,54 +125,50 @@ $count = $c[0];
   <table width="75%" border="0" align="center">
   <tr class="table-warning">
       <td>
-        <?
-$number=1;
+<?php
+    $number = 1;
+    $dbname = 'db_test_lvc';
+    $tbtest = 'test';      /////////////////////////////////// เปลี่ยน test
+    mysql_select_db($dbname) or die('connect fail');
+    $sql = "SELECT * FROM $tbtest ORDER BY RAND( ) LIMIT 0,20";
+    $counttest = "SELECT COUNT(id) FROM $tbtest";
+    $result = mysql_db_query("$dbname", $sql);
+    $i = 0;
+    while ($r = mysql_fetch_array($result)) {
+        $id = $r[id];
+        $question = $r[question];
+        $choice1 = $r[choice1];
+        $choice2 = $r[choice2];
+        $choice3 = $r[choice3];
+        $choice4 = $r[choice4];
 
-$dbname="db_test_lvc";
-$tbtest="test";      /////////////////////////////////// เปลี่ยน test
-
-mysql_select_db($dbname) or die ("connect fail");
-
-$sql="SELECT * FROM $tbtest ORDER BY RAND( ) LIMIT 0,20";
-$counttest="SELECT COUNT(id) FROM $tbtest";
-$result= mysql_db_query("$dbname",$sql);
-$i=0;
-while($r=mysql_fetch_array($result))
-	{
-	$id=$r[id];
-	$question=$r[question];
-	$choice1=$r[choice1];
-	$choice2=$r[choice2];
-	$choice3=$r[choice3];
-	$choice4=$r[choice4];
-	
-	echo "<b>  $number.$question</b><br>
-		<input type='radio' name='select_$id' value='1'>
-		$choice1<br>
-		<input type='radio' name='select_$id' value='2'>
-		$choice2<br>
-		<input type='radio' name='select_$id' value='3'>
-		$choice3<br>
-		<input type='radio' name='select_$id' value='4'>
-		$choice4<br>
-		<input type='hidden' name='total_question[]' value='$id'>
-		<hr> ";
-    $number++;
-    $i++;
-	}
+        echo "<center><b>  $number.$question</b></center><br>
+        &nbsp;&nbsp;<input type='radio' name='select_$id' value='1'>
+        $choice1<br>
+        &nbsp;&nbsp;<input type='radio' name='select_$id' value='2'>
+        $choice2<br>
+        &nbsp;&nbsp;<input type='radio' name='select_$id' value='3'>
+        $choice3<br>
+        &nbsp;&nbsp;<input type='radio' name='select_$id' value='4'>
+        $choice4<br>
+        <input type='hidden' name='total_question[]' value='$id'>
+        <hr> ";
+        ++$number;
+        ++$i;
+    }
 ?>
-  <div class="container" align="center">
-    <div class="row">
-      <div class="col-md-12">
-<?
-  echo "จำนวนทั้งหมด $i ข้อ";
-?>
-      </div>
-    </div>
-  </div>
+        <div class="container" align="center">
+          <div class="row">
+            <div class="col-md-12">
+      <?php
+        echo "จำนวนทั้งหมด $i ข้อ";
+      ?>
+            </div>
+          </div>
+        </div>
       </td>
     </tr>
-  </table>
+   </table>
 
   <p>&nbsp;</p>
   <p align="center">
