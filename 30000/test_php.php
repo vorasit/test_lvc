@@ -46,6 +46,9 @@ if ($username == $get_username and $password == $get_password and $_SESSION[user
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <script src="../jquery-3.3.1.slim.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
+    <link href="../css/clean-blog.min.css" rel="stylesheet">
+    <link href="../css/all.min.css" rel="stylesheet" type="text/css">
+    <script src="../js/clean-blog.min.js"></script>
     <title>วิชา PHP</title>
     <link rel="icon" type="image/่jpg" href="../img/lvc.jpg">
 <script language="javascript">
@@ -82,17 +85,55 @@ setTimeout("begintimer()",1000)
 }
 //-->
 </script>
+    <?php
+      $name_sql = "SELECT * FROM login where username='$username'";
+      $name_query = mysql_query($name_sql) or die('Error Query ['.$strSQL.']');
+      $name_result = mysql_fetch_array($name_query);
+      $name = $name_result[name];
+    ?>
 </head>
 <body onLoad="begintimer()">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand" href="../subject_test.php">Test Online V-NET</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a>ชื่อผู้ใช้งาน :<?php echo "$name"; ?></a>
+            </li>
+            <li class="nav-item">
+              <a href="../logout.php">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- Page Header -->
+    <header class="masthead" style="background-image: url('../img/test.jpg')">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="page-heading">
+              <img src="../img/lvc.png">
+              <h2>วิทยาลัยอาชีวศึกษาลำปาง</h2>
+              <span class="subheading">แผนกวิชาเทคโนโลยีสารสนเทศ</span>
+              <span class="subheading">รหัสวิชา 3000-0001</span>
+              <span class="subheading">วิชา PHP</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
 
-
-<div class="jumbotron text-center">
-                <h1>วิทยาลัยอาชีวศึกษาลำปาง</h1>
-                <h2>แผนกวิชาเทคโนโลยีสารสนเทศ</h2>
-                <h3>รหัสวิชา 3000-000-1</h3>
-                <h3>วิชา PHP</h3>
-</div>
-
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto"> 
 
 <div class="container">
   <div class="row">
@@ -169,8 +210,6 @@ $count = $c[0];
       </td>
     </tr>
    </table>
-
-  <p>&nbsp;</p>
   <p align="center">
     <input type="submit" value="ส่งข้อสอบ" class="btn"/>
     <input type="reset" value="ยกเลิก" class="btn"/>
@@ -180,6 +219,9 @@ $count = $c[0];
         </div>
     </div>
     </div>
+    </div>
+    </div>
+      </div>
     </div>
     <a href="../subject_test.php">back</a>
 </body>
