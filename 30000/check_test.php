@@ -55,6 +55,7 @@ session_write_close()
 
 <?
 include '../connectmysql.php';
+	
 	// $hostname="localhost";
 	// $user="root";
 	// $password="12345678";
@@ -84,9 +85,9 @@ include '../connectmysql.php';
 					}
 		}
 		$name=$_REQUEST["name"];
-
-		$id=$_REQUEST["id_score"];
-		$sql2 = "insert into $tbscore (id_score,name,correct) values ('$id','$name','$correct')"; 
+		$id_user = $_POST[id_score];
+		$id=$_REQUEST["get_username"];
+		$sql2 = "insert into $tbscore (id_score,name,correct) values ('$id_user','$name','$correct')"; 
 		$dbquery= mysql_db_query($dbname,$sql2);
 	if (!$dbquery)
 		{
