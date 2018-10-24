@@ -78,7 +78,7 @@ session_write_close();
         <a class="nav-link disabled" >ชื่อผู้ใช้งาน :<?php echo "$name"; ?></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link disabled" href="logout.php">Logout</a>
+        <a class="nav-link disabled" href="../logout.php">Logout</a>
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
